@@ -2,17 +2,26 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\Project;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ProjectController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware("auth");
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $projects = Project::paginate(10);
+
+        return view("admin.projects.index", compact("projects"));
     }
 
     /**
@@ -34,9 +43,9 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Project $project)
     {
-        //
+        return view("admin.projects.show", compact("project"));
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
-
+use App\Http\Controllers\Admin\ProjectController as AdminProjectController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +21,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+// # rotte per utenti loggati
+Route::middleware("auth")->prefix("/admin")->name("admin.")->group(function(){
+    Route::resource("/projects", AdminProjectController::class)->withTrashed(["show"]);
+});
