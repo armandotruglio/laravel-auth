@@ -2,13 +2,25 @@
 
 @section("content")
     <div class="container">
+
         <div class="row">
+
             <div class="col-12">
                 <h1 class="py-3 fw-bold text-center">
                     Armando's Projects:
                 </h1>
             </div>
+
+
             <div class="col-12">
+
+                <div class="mb-3">
+                    <a href="{{ route("admin.projects.create") }}" class="btn btn-primary btn-lg">
+                        Create new project
+                    </a>
+                </div>
+
+                @include("partials.session-message")
 
                 <table class="table table-hover table-striped">
                     <thead>
