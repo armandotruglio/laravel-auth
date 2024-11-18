@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\StoreProjectRequest;
+use App\Http\Requests\UpdateProjectRequest;
 
 class ProjectController extends Controller
 {
@@ -29,15 +32,24 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        $project = new Project();
+        return view("admin.projects.create", compact("project"));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreProjectRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $data["user_id"] = Auth::id();
+
+        $project = Project::create($data);
+
+        return redirect()->route("admin.projects.index")
+            ->with('message', "Post $project->title has been created successfully!")
+            ->with('alert-class', "success");
     }
 
     /**
@@ -51,24 +63,33 @@ class ProjectController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Project $project)
     {
-        //
+        return view("admin.projects.edit", compact("project"));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateProjectRequest $request, Project $project)
     {
-        //
+        $data = $request->validated();
+
+        $project->update($data);
+
+        return redirect()->route("admin.projects.index")
+            ->with('message', "Post $project->title has been updated successfully!")
+            ->with('alert-class', "primary");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Project $project)
     {
-        //
+        $project->delete();
+        return redirect()->route("admin.projects.index")
+            ->with('message', "Post $project->title has been deleted successfully!")
+            ->with('alert-class', "danger");
     }
 }
