@@ -23,6 +23,25 @@
                 </div>
 
                 <div class="mb-3">
+                    <label for="project-type_id" class="form-label">Type:</label>
+                    <select name="type_id" id="project-type_id" class="form-control">
+                        @foreach ($types as $type)
+                            <option value="{{ $type->id }}"
+                                    @if($type->id == old("type_id", $project->type_id))
+                                        selected
+                                    @endif
+                                >
+                                {{ $type->name }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    @error("category_id")
+                        @include("partials.single-name-error-message")
+                    @enderror
+                </div>
+
+                <div class="mb-3">
                     <label for="project-date" class="form-label">Project date:</label>
                     <input type="text" name="date" id="project-date" class="form-control" value="{{ old("date", $project->date) }}">
                     @error("date")
