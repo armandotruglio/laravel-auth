@@ -27,6 +27,7 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Title</th>
+                            <th scope="col">Type</th>
                             <th scope="col">Date</th>
                         </tr>
                     </thead>
@@ -38,6 +39,13 @@
                             </td>
                             <td>
                                 {{ $project->title }}
+                            </td>
+                            <td>
+                                @if(isset($project->type))
+                                    {{ $project->type->name }}
+                                @else
+                                    No type
+                                @endif
                             </td>
                             <td>
                                 {{ $project->date }}
